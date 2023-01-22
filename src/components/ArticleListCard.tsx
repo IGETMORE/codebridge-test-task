@@ -1,37 +1,28 @@
-import { Card } from "@mui/material";
+import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
+import Skeleton from "@mui/material/Skeleton";
 import { Icon } from "@iconify/react";
-import moment from "moment";
 import { FC } from "react";
 import { Article } from "../redux/types";
-import { styled } from "@mui/material/styles";
+import { CustomButton } from "./UI/CustomButton";
 import ArrowForward from "@mui/icons-material/ArrowForward";
-
-export const CustomButton = styled(Button)({
-  textTransform: "none",
-  fontFamily: ["Montserrat"].join(","),
-  fontSize: "16px",
-  fontWeight: 700,
-  lineHeight: "24px",
-  color: "#363636",
-  padding: 0,
-  border: "none",
-  boxShadow: "none",
-  "&:hover": {
-    backgroundColor: "none !important",
-  },
-});
+import { CustomRouterLink } from "./UI/CustomRouterLink";
+import moment from "moment";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { selectArticle } from "../redux/articles/articlesSlice";
 
 export const ArticleListCard: FC<Article> = ({
   publishedAt,
   title,
   summary,
   imageUrl,
+  id,
 }) => {
+  const isLoading = useAppSelector((state) => state.articlesReducer.isLoading);
+  const dispatch = useAppDispatch();
+
   const sliceSummary = (txt: string) => {
     let slicedSummary = "";
     let counter = 0;
@@ -49,30 +40,34 @@ export const ArticleListCard: FC<Article> = ({
     return slicedSummary;
   };
 
-  return (
-    <Card
-      sx={{
-        maxWidth: 400,
-        height: 530,
-        boxShadow: " 0px 8px 24px rgba(0, 0, 0, 0.05)",
-      }}
-    >
-      <CardMedia image={imageUrl} sx={{ height: 217 }} />
-      <CardContent sx={{ padding: "25px 25px" }}>
-        <Typography sx={{ marginBottom: "24px", opacity: 0.6 }} variant="h2">
-          <Icon
-            icon="akar-icons:calendar"
-            style={{ top: "1px", position: "relative", marginRight: "3px" }}
-          />{" "}
-          {moment(publishedAt).format("LL")}
-        </Typography>
-        <Typography sx={{ marginBottom: "20px" }} variant="h1">
-          {title}
-        </Typography>
-        <Typography sx={{ marginBottom: "20px" }} variant="body1">
-          {sliceSummary(summary)}
-        </Typography>
-        <CardActions sx={{ padding: 0 }}>
+  return isLoading ? (
+    <Skeleton animation="wave" width={400} height={530} />
+  ) : (
+    <CustomRouterLink to={`/${id}`} onClick={() => dispatch(selectArticle(id))}>
+      <Card
+        sx={{
+          maxWidth: 400,
+          height: 530,
+          boxShadow: " 0px 8px 24px rgba(0, 0, 0, 0.05)",
+          cursor: "pointer",
+          border: "1px solid #EAEAEA;"
+        }}
+      >
+        <CardMedia image={imageUrl} sx={{ height: 217 }} />
+        <CardContent sx={{ padding: "25px 25px" }}>
+          <Typography sx={{ marginBottom: "24px", opacity: 0.6 }} variant="h2">
+            <Icon
+              icon="akar-icons:calendar"
+              style={{ top: "1px", position: "relative", marginRight: "3px" }}
+            />{" "}
+            {moment(publishedAt).format("LL")}
+          </Typography>
+          <Typography sx={{ marginBottom: "20px" }} variant="h1">
+            {title}
+          </Typography>
+          <Typography sx={{ marginBottom: "20px" }} variant="body1">
+            {sliceSummary(summary)}
+          </Typography>
           <CustomButton
             endIcon={
               <ArrowForward
@@ -87,8 +82,8 @@ export const ArticleListCard: FC<Article> = ({
           >
             Read more
           </CustomButton>
-        </CardActions>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </CustomRouterLink>
   );
 };

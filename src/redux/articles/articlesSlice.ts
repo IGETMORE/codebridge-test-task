@@ -1,17 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ArticlesSliseState } from "../types";
-import { fetchArticles } from "./articlesAsync";
+import { fetchArticles, fetchSingleArticle } from "./articlesAsync";
 
 const initialState: ArticlesSliseState = {
   articles: [],
   filter: "",
   isLoading: true,
+  articleId: 17957,
+  singleArticle: {},
 };
 
 const articlesSlice = createSlice({
   name: "articles",
   initialState,
-  reducers: {},
+  reducers: {
+    selectArticle: (state, action: PayloadAction<number>) => {
+      state.articleId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchArticles.pending, (state) => {
       state.isLoading = true;
@@ -20,7 +26,12 @@ const articlesSlice = createSlice({
       state.articles = action.payload;
       state.isLoading = false;
     });
+    builder.addCase(fetchSingleArticle.fulfilled, (state, action) => {
+      state.singleArticle = {...action.payload}
+    });
   },
 });
+
+export const { selectArticle } = articlesSlice.actions;
 
 export default articlesSlice.reducer;
