@@ -8,6 +8,7 @@ const initialState: ArticlesSliseState = {
   isLoading: true,
   articleId: 17957,
   singleArticle: {},
+  numberOfResults: 0,
 };
 
 const articlesSlice = createSlice({
@@ -27,6 +28,7 @@ const articlesSlice = createSlice({
     });
     builder.addCase(fetchArticles.fulfilled, (state, action) => {
       state.articles = action.payload;
+      state.numberOfResults = action.payload.length;
       state.isLoading = false;
     });
     builder.addCase(fetchSingleArticle.fulfilled, (state, action) => {

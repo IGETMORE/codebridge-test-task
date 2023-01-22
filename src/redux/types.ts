@@ -1,6 +1,6 @@
 export interface Article {
   id: number;
-  title?: string;
+  title: string;
   imageUrl?: string;
   summary: string;
   publishedAt?: string;
@@ -19,4 +19,5 @@ export interface ArticlesSliseState {
   isLoading: boolean;
   articleId: number;
   singleArticle: ArticleDemo;
+  numberOfResults: number;
 }

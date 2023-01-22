@@ -3,8 +3,6 @@ import { FC, useEffect } from "react";
 import { ArticlesList } from "./components/ArticlesList";
 import { fetchArticles } from "./redux/articles/articlesAsync";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 import { Route, Routes } from "react-router-dom";
 import { ArticlePage } from "./components/ArticlePage";
 import { theme } from "./theme";
@@ -15,7 +13,7 @@ const App: FC = () => {
   const filter = useAppSelector((state) => state.articlesReducer.filter);
 
   useEffect(() => {
-    dispatch(fetchArticles());
+    dispatch(fetchArticles(filter));
   }, [filter]);
 
   return (

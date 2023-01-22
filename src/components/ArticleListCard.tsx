@@ -12,6 +12,7 @@ import { CustomRouterLink } from "./UI/CustomRouterLink";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { selectArticle } from "../redux/articles/articlesSlice";
+import Highlighter from "react-highlight-words";
 
 export const ArticleListCard: FC<Article> = ({
   publishedAt,
@@ -22,6 +23,7 @@ export const ArticleListCard: FC<Article> = ({
 }) => {
   const isLoading = useAppSelector((state) => state.articlesReducer.isLoading);
   const dispatch = useAppDispatch();
+  const filter = useAppSelector((state) => state.articlesReducer.filter);
 
   const sliceSummary = (txt: string) => {
     let slicedSummary = "";
@@ -50,7 +52,7 @@ export const ArticleListCard: FC<Article> = ({
           height: 530,
           boxShadow: " 0px 8px 24px rgba(0, 0, 0, 0.05)",
           cursor: "pointer",
-          border: "1px solid #EAEAEA;"
+          border: "1px solid #EAEAEA;",
         }}
       >
         <CardMedia image={imageUrl} sx={{ height: 217 }} />
@@ -63,10 +65,18 @@ export const ArticleListCard: FC<Article> = ({
             {moment(publishedAt).format("LL")}
           </Typography>
           <Typography sx={{ marginBottom: "20px" }} variant="h1">
-            {title}
+            <Highlighter
+              searchWords={filter.split(" ")}
+              autoEscape={true}
+              textToHighlight={title}
+            />
           </Typography>
           <Typography sx={{ marginBottom: "20px" }} variant="body1">
-            {sliceSummary(summary)}
+            <Highlighter
+              searchWords={filter.split(" ")}
+              autoEscape={true}
+              textToHighlight={sliceSummary(summary)}
+            />
           </Typography>
           <CustomButton
             endIcon={
