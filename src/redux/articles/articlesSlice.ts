@@ -17,6 +17,9 @@ const articlesSlice = createSlice({
     selectArticle: (state, action: PayloadAction<number>) => {
       state.articleId = action.payload;
     },
+    setFilter: (state, action: PayloadAction<string>) => {
+      state.filter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchArticles.pending, (state) => {
@@ -27,11 +30,11 @@ const articlesSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchSingleArticle.fulfilled, (state, action) => {
-      state.singleArticle = {...action.payload}
+      state.singleArticle = { ...action.payload };
     });
   },
 });
 
-export const { selectArticle } = articlesSlice.actions;
+export const { selectArticle, setFilter } = articlesSlice.actions;
 
 export default articlesSlice.reducer;

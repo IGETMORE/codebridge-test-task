@@ -3,12 +3,21 @@ import { useAppSelector } from "../redux/hooks";
 import { ArticleListCard } from "./ArticleListCard";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
+import { FilterBlock } from "./FilterBlock";
 
 export const ArticlesList: FC = () => {
   const articles = useAppSelector((state) => state.articlesReducer.articles);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "1290px",
+        margin: "auto",
+      }}
+    >
+      <FilterBlock />
       <Grid
         container
         spacing={{ xs: 2, md: 4 }}

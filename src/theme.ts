@@ -15,6 +15,14 @@ export const theme = createTheme({
       lineHeight: "21px",
       fontWeight: 400,
     },
+    h3: {
+      color: "#363636",
+      textTransform: "none",
+      fontWeight: 600,
+      fontSize: "16px",
+      lineHeight: "19px",
+      marginBottom: "10px",
+    },
     body1: {
       color: "#363636",
       fontSize: 16,

@@ -22,7 +22,15 @@ export const ArticlePage: FC<ArticleProps> = ({ id }) => {
   }, []);
 
   return (
-    <Box display="flex" alignItems="center">
+    <Box
+      alignItems="center"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "1290px",
+        margin: "auto",
+      }}
+    >
       <Box
         component="img"
         sx={{

@@ -12,10 +12,11 @@ import { theme } from "./theme";
 const App: FC = () => {
   const dispatch = useAppDispatch();
   const articleId = useAppSelector((state) => state.articlesReducer.articleId);
+  const filter = useAppSelector((state) => state.articlesReducer.filter);
 
   useEffect(() => {
     dispatch(fetchArticles());
-  }, []);
+  }, [filter]);
 
   return (
     <ThemeProvider theme={theme}>
